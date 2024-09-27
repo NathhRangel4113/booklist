@@ -1,32 +1,64 @@
 <div class="container-fluid">
   <p class="h3 p-3">{{ bookDetail.name }}</p>
   <div class="row">
+    <!-- Imagen del libro -->
     <div class="col-2">
       <div class="thumb">
-        <img
-          class="img-fluid"
-          src="{{ bookDetail.image }}"
-          alt="{{ bookDetail.name }}"
-        />
+        <img class="img-fluid" src="{{ bookDetail.image }}" alt="{{ bookDetail.name }}" />
       </div>
+      <!-- Botón para agregar a favoritos -->
+      <button class="btn btn-outline-primary mt-3 w-100" (click)="addToFavorites()">
+        <i class="bi bi-heart"></i> Agregar a Favoritos
+      </button>
+      <!-- Botón para agregar al carrito -->
+      <button class="btn btn-outline-success mt-2 w-100" (click)="addToCart()">
+        <i class="bi bi-cart"></i> Añadir al Carrito
+      </button>
     </div>
+    
+    <!-- Detalles del libro -->
     <div class="col">
       <dl>
-        <dt>Authors</dt>
+        <dt>Autores</dt>
         <dd class="caption" *ngFor="let author of bookDetail.authors">
           {{ author.name }}
         </dd>
         <dt>ISBN</dt>
         <dd>{{ bookDetail.isbn }}</dd>
         <hr />
-        <dt>Publishing Date</dt>
+        
+        <dt>Fecha de Publicación</dt>
         <dd>{{ bookDetail.publishingDate }}</dd>
         <hr />
+
         <dt class="bold">Editorial</dt>
         <dd class="caption">{{ bookDetail.editorial.name }}</dd>
         <hr />
-        <dt class="bold">Description</dt>
-        <dd>{{ bookDetail.description }}</dd>
+
+        <dt class="bold">Géneros</dt>
+        <dd class="caption" *ngFor="let genre of bookDetail.genres">
+          <span class="badge bg-secondary">{{ genre }}</span>
+        </dd>
+        <hr />
+
+        <dt class="bold">Descripción</dt>
+        <dd>
+          <!-- Mostrar solo una parte de la descripción si es muy larga -->
+          {{ showMore ? bookDetail.description : (bookDetail.description | slice: 0: 300) + '...' }}
+        </dd>
+        <button *ngIf="bookDetail.description.length > 300" class="btn btn-link p-0" (click)="toggleDescription()">
+          {{ showMore ? 'Leer Menos' : 'Leer Más' }}
+        </button>
+        <hr />
+
+        <!-- Rating del libro -->
+        <dt class="bold">Rating</dt>
+        <dd>
+          <span *ngFor="let star of [1, 2, 3, 4, 5]">
+            <i class="bi" [ngClass]="getStarClass(star)"></i>
+          </span>
+          <span>({{ bookDetail.ratingCount }} valoraciones)</span>
+        </dd>
       </dl>
     </div>
   </div>

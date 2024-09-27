@@ -18,7 +18,10 @@ export class BookDetail extends Book {
     publishingDate: any,
     editorial: Editorial,
     authors: Array<Author>,
-    reviews: Array<Review>
+    reviews: Array<Review>,
+    rating: number,
+    ratingCount: number,
+    genres: string[],
   ) {
     super(id, name, isbn, description, image, publishingDate, editorial);
     this.authors = authors;
